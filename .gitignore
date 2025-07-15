@@ -1,0 +1,5 @@
+*.testfile
+*.pem
+test
+__pycache__
+venv
