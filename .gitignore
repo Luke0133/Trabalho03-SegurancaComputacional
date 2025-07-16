@@ -1,5 +1,5 @@
 *.testfile
-*.pem
+*.key
 test
 __pycache__
 venv

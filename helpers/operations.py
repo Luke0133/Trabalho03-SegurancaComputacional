@@ -20,22 +20,29 @@ def generate_keys() -> float:
 """
 Signs document with given private key
 """
-def sign(file_path,priv_path) -> None: 
+def sign(file_path,priv_path) -> tuple[float,float]: 
     with open(file_path,'rb') as f:
         data = f.read()
        
     n, d = get_keys(priv_path)
 
+    
+    start = time.perf_counter()
     encoded_message = pss.pss_encode(data)
-
+    end = time.perf_counter()
+    pss_encoding_time = (end - start) * 1000
+    
+    start = time.perf_counter()
     signed_message = rsa.rsa_sign(int.from_bytes(encoded_message), n, d)
+    end = time.perf_counter()
+    signature_time = (end - start) * 1000
 
     sig_path = file_path + ".sig"
     with open(sig_path, "wb") as sig_file:
         sig_file.write(base64.b64encode(int_to_bytes(signed_message)))
     
-    print(f"File signed successfully, stored as {os.path.basename(sig_path)}")
-    return
+    print(f"| File signed successfully, stored as {os.path.basename(sig_path)}")
+    return (pss_encoding_time,signature_time)
 
 """
 With a given document, signature and public key, checks if signature is valid for said document
@@ -52,9 +59,18 @@ def verify(file_path,sig_path,pub_path) -> bool:
     signature_bytes = base64.b64decode(signature_b64)
     signature_int = int.from_bytes(signature_bytes, 'big')
 
+    
+    start = time.perf_counter()
     verified_message = rsa.rsa_verify(signature_int, n, e)
+    end = time.perf_counter()
+    rsa_verify_time = (end - start) * 1000
 
-    return pss.pss_verify(data, int_to_bytes(verified_message))
+    start = time.perf_counter()
+    result = pss.pss_verify(data, int_to_bytes(verified_message))
+    end = time.perf_counter()
+    pss_decode_time = (end - start) * 1000
+    
+    return (result, rsa_verify_time,pss_decode_time)
 
 
 """
