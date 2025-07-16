@@ -63,14 +63,14 @@ def pss_encode(data):
     # 12. EM = maskedDB || H || 0xbc
     em = maskedDB + h + bytearray([0xbc])
 
-    return em
+    return bytes(em)
 
 """
 PSS-VERIFY -> Follows PSS verification process from RFC8017 (Section 9.1 - EMSA-PSS)
 Operation for checking if the received PSS EMSA-PSS data is valid for a given data
 - Returns True if consistent, otherwise returns False
 """
-def pss_verify(data, em):
+def pss_verify(data:bytes, em:bytes) -> bool:
     # 1. Calculating Hash (using SHA3-512 from cryptography library) -> It doesn't have a feasible limit, 
     # so it isn't necessary to check the length of the input. Since the size of the hash is 512, hLen = 64 (bytes)
 
