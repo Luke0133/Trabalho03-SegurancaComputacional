@@ -81,7 +81,7 @@ def ui_sign_verify():
                         print("Signature Generator and Verifier: Key Generation - Sign File")
                         print(f"Path to your file: {file_path}")
                         if err: print(err)
-                        priv_path = input("Path to your private .key file: ")
+                        priv_path = input("Path to your private key file: ")
                         if not os.path.isfile(priv_path): err = "Invalid path"
                         else: break
 
@@ -122,7 +122,7 @@ def ui_sign_verify():
                         print(f"Path to your file: {file_path}")
                         print(f"Path to your .sig file: {sig_path}")
                         if err: print(err)
-                        pub_path = input("Path to your public .key file: ")
+                        pub_path = input("Path to your public key file: ")
                         if not os.path.isfile(pub_path): err = "Invalid path"
                         else: break
 

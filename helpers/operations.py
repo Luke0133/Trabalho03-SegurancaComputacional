@@ -20,12 +20,12 @@ def generate_keys() -> float:
     while True:
         clear_screen()
         print("Signature Generator and Verifier: Key Generation")
-        print("Choose type of file to store key:\n| 1. Custom .key format (only b64)\n| 2. PEM format\n| 3. Return")
+        print("Choose type of file to store key:\n| 1. Custom .custom_key format (only b64)\n| 2. PEM format\n| 3. Return")
         try:
             choice = int(input("Type the number to select your answer: "))
             if choice in [1,2]:
                 start = time.perf_counter()
-                e,d,n,p,q = rsa.rsa_generate_keys()
+                e,d,n,p,q = rsa.rsa_generate_keys(choice)
                 end = time.perf_counter()
                 
                 print()
@@ -113,9 +113,9 @@ def store_key(n:int,key:int,type='pub', choice = 1, p = None, q = None):
     match choice:
         case 1:
             if TEST_FLAG:
-                key_name = 'test-pub.key' if type == 'pub' else 'test-priv.key'
+                key_name = 'test-pub.custom_key' if type == 'pub' else 'test-priv.custom_key'
             else:
-                key_name = f'{now + '-pub.key'}' if type == 'pub' else f'{now + "-priv.key"}'
+                key_name = f'{now + '-pub.custom_key'}' if type == 'pub' else f'{now + "-priv.custom_key"}'
             key_path = os.path.join(key_folder, key_name) if type == 'pub' else os.path.join(key_folder, key_name)
 
             if not os.path.exists(key_folder):
@@ -205,7 +205,7 @@ def get_keys(key_path) -> tuple[int,int]:
             numbers = key.public_numbers()
             return (numbers.n, numbers.e)
     
-    else: # Assumes it's a .key
+    else: # Assumes it's a .custom_key
         with open(key_path, "r") as f:
             key_str = f.read()
         

@@ -1,5 +1,6 @@
 *.testfile
 *.key
+*.custom_key
 *.pem
 test
 __pycache__

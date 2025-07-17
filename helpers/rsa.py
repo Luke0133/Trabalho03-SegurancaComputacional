@@ -71,8 +71,9 @@ def generate_prime() -> int:
 RSA KEY GENERATION ALGORYTHM
 - The public key is defined as e = 65537 (common value for public key)
 - Gets two primes p and q to generate part of the key (n) and then the private key (d)
+- If choice == 1, doesn't return p and q (which is good), otherwise, returns p and q (needed for serializing private key to PEM)
 """
-def rsa_generate_keys() -> tuple[int,int,int]:
+def rsa_generate_keys(choice = 1) -> tuple[int,int,int]:
     e = 65537
     while True:
         p = generate_prime()
@@ -88,7 +89,8 @@ def rsa_generate_keys() -> tuple[int,int,int]:
 
     d = int(Mod(e, phi).inverse)
 
-    return (e,d,n,p,q)
+    if choice == 1: return (e,d,n,None,None)
+    else: return (e,d,n,p,q)
     
 
 """
