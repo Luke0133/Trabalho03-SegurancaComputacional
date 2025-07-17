@@ -45,11 +45,11 @@ def ui_generate_keys():
                             pass
                     break
                 case 3: return
-                case _: pass
+                case _: continue
         except ValueError:
             pass
-            
-    print()
+    
+    
     time_elapsed = op.generate_keys()
     print(f"\nTime Elapsed During Key Generation: {time_elapsed:.4f} ms")
     sleep(1)
@@ -120,7 +120,7 @@ def ui_sign_verify():
                         clear_screen()
                         print("Signature Generator and Verifier: Key Generation - Verify Signed File")
                         print(f"Path to your file: {file_path}")
-                        print(f"Path to your .sig file: {file_path}")
+                        print(f"Path to your .sig file: {sig_path}")
                         if err: print(err)
                         pub_path = input("Path to your public .key file: ")
                         if not os.path.isfile(pub_path): err = "Invalid path"

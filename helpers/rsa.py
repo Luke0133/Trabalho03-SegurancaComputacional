@@ -88,7 +88,7 @@ def rsa_generate_keys() -> tuple[int,int,int]:
 
     d = int(Mod(e, phi).inverse)
 
-    return (e,d,n)
+    return (e,d,n,p,q)
     
 
 """
